@@ -4,6 +4,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidFields
 from shot import Shot
+from score import Score
 
 from constants import *
 
@@ -31,6 +32,7 @@ def main():
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroidfield = AsteroidFields()
+    score = Score()
 
     # game loop
     while True:
@@ -41,6 +43,7 @@ def main():
         screen.fill((0, 0, 0))
 
         updatable.update(dt)
+        score.update()
 
         for asteroid in asteroids:
             if player.isColliding(asteroid):
@@ -50,6 +53,9 @@ def main():
                 if shot.isColliding(asteroid):
                     asteroid.split()
                     shot.kill()
+                    score.inc_score()
+
+        score.draw(screen)
 
         for obj in drawable:
             obj.draw(screen)
